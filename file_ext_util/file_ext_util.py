@@ -1,14 +1,29 @@
+PICTURE_EXT = \
+[
+    'jpeg',
+    'jpg',
+    'jpe',
+    'jif',
+    'jfif',
+    'jfi',
+    'gif',
+    'png'
+]
 
-picture_extentions = ['jpeg','jpg','jpe','jif','jfif','jfi','gif','png']
-
-music_extentions = ['mp3','wav','ogg','midi']
+MUSIC_EXT = \
+[
+    'mp3',
+    'wav',
+    'ogg',
+    'midi'
+]
 
 
 def is_picture(file_ext):
-	return file_ext in picture_extentions
+    return file_ext in PICTURE_EXT
 
 def is_music(file_ext):
-	return file_ext in music_extentions
+    return file_ext in MUSIC_EXT
  
 def is_mp3(file_ext):
-    return file_ext == "mp3"
+    return file_ext == 'mp3'
