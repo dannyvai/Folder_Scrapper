@@ -14,33 +14,34 @@ sys.path.insert(1, os.getcwd()+"/scripts_stats_end")
 #    Helpers           #
 #########################
 
-def foreach_file_do(filepath, filename, file_ext):
+def foreach_file_do(filepath, filename, file_ext,private_data):
 
     for script_filename in os.listdir(os.getcwd()+'/scripts_per_file'):
         if script_filename[0] != '_':
             exec('import %s'  % script_filename)
-            eval(script_filename+'.foreach_file_do("%s","%s","%s")'
+            private_data = eval(script_filename+'.foreach_file_do("%s","%s","%s",private_data)'
                     %(filepath, filename, file_ext))
+    return private_data
 
 
-def foreach_stats_do(n_dirs, n_files, file_ext_dict):
+def foreach_stats_do(n_dirs, n_files, file_ext_dict,private_data):
 
     for script_filename in os.listdir(os.getcwd()+'/scripts_stats_end'):
         if script_filename[0] != '_':
             exec('import %s'  % script_filename)
-            eval(script_filename+'.show_stats("%s","%s","%s")'
+            eval(script_filename+'.show_stats("%s","%s","%s",private_data)'
                     %(n_dirs, n_files, file_ext_dict))
 
 
-def scan_folder(folder_path, n_dirs, n_files, file_ext_dict):
+def scan_folder(folder_path, n_dirs, n_files, file_ext_dict,private_data):
 
     for filename in os.listdir(folder_path):
         filepath = folder_path +"/" + filename
 
            #Directory
         if os.path.isdir(filepath):
-            n_dirs, n_files, file_ext_dict = \
-                    scan_folder(filepath, n_dirs, n_files, file_ext_dict)
+            n_dirs, n_files, file_ext_dict,private_data = \
+                    scan_folder(filepath, n_dirs, n_files, file_ext_dict,private_data)
             n_dirs = n_dirs + 1
            #File
         else:
@@ -48,7 +49,7 @@ def scan_folder(folder_path, n_dirs, n_files, file_ext_dict):
             name_parts = filename.split('.')
             file_ext = name_parts[-1]
 
-            foreach_file_do(filepath, filename, file_ext)
+            private_data = foreach_file_do(filepath, filename, file_ext,private_data)
 
 
             if file_ext_dict.has_key(file_ext):
@@ -61,7 +62,7 @@ def scan_folder(folder_path, n_dirs, n_files, file_ext_dict):
 
             n_files += 1
 
-    return n_dirs, n_files, file_ext_dict
+    return n_dirs, n_files, file_ext_dict,private_data
 
 
 #########################
@@ -79,13 +80,14 @@ def main(argv):
         exit(-1)
 
     file_ext_dict = {}
-    n_dirs, n_files, file_ext_dict = \
-        scan_folder(search_path, 0, 0, file_ext_dict)
+    private_data  = {}
+    n_dirs, n_files, file_ext_dict,private_data = \
+        scan_folder(search_path, 0, 0, file_ext_dict,private_data)
     print file_ext_dict
     print "Number of Dirs : ", n_dirs
     print "Number of Files : ", n_files
-
-    foreach_stats_do(n_dirs, n_files, file_ext_dict)
+    print private_data
+    foreach_stats_do(n_dirs, n_files, file_ext_dict,private_data)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

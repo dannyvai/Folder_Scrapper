@@ -12,7 +12,7 @@ def print_debug(string):
     if DEBUG:
         print string
 
-def foreach_file_do(filepath, filename, file_ext):
+def foreach_file_do(filepath, filename, file_ext,private_data):
     print_debug(filepath)
     if file_ext_util.is_mp3(file_ext):
         tag = eyeD3.Tag()
@@ -39,3 +39,4 @@ def foreach_file_do(filepath, filename, file_ext):
                     print_debug(album_name)
                     tag.setAlbum(album_name)
                     tag.update()
+    return private_data

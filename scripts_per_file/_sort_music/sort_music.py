@@ -6,9 +6,9 @@ import shutil
 import file_ext_util
 import util
 
-def foreach_file_do(filepath,filename,file_ext):
+def foreach_file_do(filepath,filename,file_ext,private_data):
     print filepath
-    return
+    return private_data
 
     if file_ext_util.is_mp3(file_ext):
         tag = eyeD3.Tag()
@@ -30,4 +30,4 @@ def foreach_file_do(filepath,filename,file_ext):
                 if not os.path.exists(album_folder):
                     os.makedirs(album_folder)
                 shutil.copy(filepath,album_folder.encode('utf-8'))
-
+    return private_data

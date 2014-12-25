@@ -2,7 +2,7 @@
 
 from pylab import *
 
-def show_stats(n_dirs,n_files,file_ext_dict):
+def show_stats(n_dirs,n_files,file_ext_dict,private_data):
     file_ext_dict = eval(file_ext_dict)
     
     #ax = axes([0.1, 0.1, 0.8, 0.8])
