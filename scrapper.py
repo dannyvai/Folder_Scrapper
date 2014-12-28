@@ -37,31 +37,32 @@ def scan_folder(folder_path, n_dirs, n_files, file_ext_dict,private_data):
 
     for filename in os.listdir(folder_path):
         filepath = folder_path +"/" + filename
+        try:
+			#Directory
+			if os.path.isdir(filepath):
+				n_dirs, n_files, file_ext_dict,private_data = \
+						scan_folder(filepath, n_dirs, n_files, file_ext_dict,private_data)
+				n_dirs = n_dirs + 1
+			#File
+			else:
 
-           #Directory
-        if os.path.isdir(filepath):
-            n_dirs, n_files, file_ext_dict,private_data = \
-                    scan_folder(filepath, n_dirs, n_files, file_ext_dict,private_data)
-            n_dirs = n_dirs + 1
-           #File
-        else:
+				name_parts = filename.split('.')
+				file_ext = name_parts[-1]
 
-            name_parts = filename.split('.')
-            file_ext = name_parts[-1]
-
-            private_data = foreach_file_do(filepath, filename, file_ext,private_data)
+				private_data = foreach_file_do(filepath, filename, file_ext,private_data)
 
 
-            if file_ext_dict.has_key(file_ext):
-                file_ext_dict[file_ext]['n_files'] += 1
-                file_ext_dict[file_ext]['total_size'] +=  os.path.getsize(filepath)
-                #new extension
-            else:
-                file_ext_dict[file_ext] = \
-                    {'n_files': 1, 'total_size':os.path.getsize(filepath)}
+				if file_ext_dict.has_key(file_ext):
+					file_ext_dict[file_ext]['n_files'] += 1
+					file_ext_dict[file_ext]['total_size'] +=  os.path.getsize(filepath)
+					#new extension
+				else:
+					file_ext_dict[file_ext] = \
+						{'n_files': 1, 'total_size':os.path.getsize(filepath)}
 
-            n_files += 1
-
+				n_files += 1
+        except:
+            pass
     return n_dirs, n_files, file_ext_dict,private_data
 
 
