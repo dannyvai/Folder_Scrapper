@@ -20,10 +20,10 @@ MUSIC_EXT = \
 
 
 def is_picture(file_ext):
-    return file_ext in PICTURE_EXT
+    return file_ext.lower() in PICTURE_EXT
 
 def is_music(file_ext):
-    return file_ext in MUSIC_EXT
+    return file_ext.lower() in MUSIC_EXT
  
 def is_mp3(file_ext):
-    return file_ext == 'mp3'
+    return file_ext.lower() == 'mp3'

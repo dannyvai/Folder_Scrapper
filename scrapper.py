@@ -1,5 +1,6 @@
 import os
 import sys # argv
+import traceback
 
 #TODO add to config
 #base_folder = "/home/ubuser/tmp"
@@ -62,7 +63,8 @@ def scan_folder(folder_path, n_dirs, n_files, file_ext_dict,private_data):
 
 				n_files += 1
         except:
-            pass
+            traceback.print_exc(file=sys.stdout)
+
     return n_dirs, n_files, file_ext_dict,private_data
 
 
